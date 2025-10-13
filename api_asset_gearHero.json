@@ -1,0 +1,44 @@
+{
+  "barking": [
+    "Earthquake_Boots.webp",
+    "Giant_Gauntlet.webp",
+    "Rage_Vial.webp",
+    "Snake_Bracelet.webp",
+    "Spiky_Ball.webp",
+    "Vampstache.webp"
+  ],
+  "minionprince": [
+    "Dark_Crown.webp",
+    "Dark_Orb.webp",
+    "Henchmen_Puppet.webp",
+    "Metal_Pants.webp",
+    "Meteor_Staff.webp",
+    "Noble_Iron.webp"
+  ],
+  "queen": [
+    "Action_Figure.webp",
+    "Archer_Puppet.webp",
+    "Frozen_Arrow.webp",
+    "Giant_Arrow.webp",
+    "Healer_Puppet.webp",
+    "Invisibility_Vial.webp",
+    "Magic_Mirror.webp"
+  ],
+  "rc": [
+    "Electro_Boots.webp",
+    "Haste_Vial.webp",
+    "Hog_Rider_Puppet.webp",
+    "Rocket_Spear.webp",
+    "Royal_Gem.webp",
+    "Seeking_Shield.webp"
+  ],
+  "warden": [
+    "Eternal_Tome.webp",
+    "Fireball_Equipment.webp",
+    "Healing_Tome.webp",
+    "Heroic_Torch.webp",
+    "Lavaloon_Puppet.webp",
+    "Life_Gem.webp",
+    "Rage_Gem.webp"
+  ]
+}

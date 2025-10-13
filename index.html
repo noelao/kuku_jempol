@@ -7,6 +7,43 @@
 </head>
 <body>
     <h1>kuku jempol malas ngedit rajin ngoding</h1>
-    
+    <h2>tugas: </h2>
+    <img src="asset/image/gear_hero/barking/Earthquake_Boots.webp" alt="">
+    <ul>
+        <li>mencaari foto hero-hero di coc, berskin dan tidak berskin</li>
+        <li>mengumpulkan aset foto gear hero coc</li>
+    </ul>
+
+<script>
+    async function fetchApiGearHero() {
+        try {
+            // Melakukan fetch ke path relatif
+            const response = await fetch("api_asset_gearHero.json");
+
+            if (!response.ok) {
+                // Melemparkan error jika status HTTP bukan 200-299
+                throw new Error(`Gagal memuat file: ${response.statusText}`);
+            }
+
+            // Mengubah respons menjadi objek JavaScript
+            const data = await response.json(); 
+            
+            Object.keys(data).forEach(folderName => {
+                const fileList = data[folderName];
+
+                console.log(`\nFolder saat ini: ${folderName}`);
+                console.log(`Jumlah file: ${fileList.length}`);
+                console.log('isi file : ', data[folderName])
+            });
+            
+        } catch (error) {
+            console.error("Kesalahan Fetch API:", error);
+        }
+    }
+
+    fetchApiGearHero();
+</script>
+
+
 </body>
 </html>
