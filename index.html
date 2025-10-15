@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>noe_lao thumbnail</title>
+    <style>
+
+    </style>
 </head>
 <body>
     <h1>kuku jempol malas ngedit rajin ngoding</h1>
@@ -14,8 +17,18 @@
         <li>mengumpulkan aset foto gear hero coc</li>
     </ul>
 
+    <div class="contentAsli">
+        <select name="hero" id="barking">
+            <option value="ini">rage</option>
+            <option value="ini">gempa</option>
+        </select>
+
+        <!-- buat ini di js -->
+    </div>
+
 <script>
     async function fetchApiGearHero() {
+        let data = {};
         try {
             // Melakukan fetch ke path relatif
             const response = await fetch("api_asset_gearHero.json");
@@ -26,18 +39,56 @@
             }
 
             // Mengubah respons menjadi objek JavaScript
-            const data = await response.json(); 
+            data = await response.json(); 
             
             Object.keys(data).forEach(folderName => {
                 const fileList = data[folderName];
 
                 console.log(`\nFolder saat ini: ${folderName}`);
-                console.log(`Jumlah file: ${fileList.length}`);
-                console.log('isi file : ', data[folderName])
             });
             
         } catch (error) {
             console.error("Kesalahan Fetch API:", error);
+        } finally {
+            const wadah = document.querySelector(".contentAsli");
+
+            
+            const namaHero = Object.keys(data).map(ini => {
+                return ini;
+            }).join(",").split(",");
+            console.log(namaHero);
+            
+            namaHero.forEach((ini, i) => {
+                if(i >= 1){
+                    const bagian = document.createElement("div");
+                    bagian.className = "hero";
+
+                    const selectElement = document.createElement("select");
+                    selectElement.className = "heroyang"
+                    
+                    const selectGear = document.createElement("select");
+                    selectGear.className = "gear"
+                    
+                    
+                    namaHero.forEach(ini2 => {
+                        const optionElement = document.createElement("option");
+                        optionElement.value = ini2;
+                        optionElement.textContent = ini2;
+                        selectElement.appendChild(optionElement);
+                    });
+                    data[ini].forEach(ini2 => {
+                        const namaGear = document.createElement('option');
+                        namaGear.value = ini2;
+                        namaGear.textContent = ini2;
+                        selectGear.appendChild(namaGear);
+                    })
+
+                    bagian.appendChild(selectElement);
+                    bagian.appendChild(selectGear);
+                    wadah.appendChild(bagian);
+                }
+            })
+
         }
     }
 
