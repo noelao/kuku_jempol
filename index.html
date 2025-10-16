@@ -5,7 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>noe_lao thumbnail</title>
     <style>
+        .contentAsli {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+        
+        .poster {
+            height: 100vh;
+            aspect-ratio: 9/16;
+            background-color: #0a0a0a;
+            display: flex;
+            align-items: center;
+            /* justify-content: center; */
+            padding: 64px;
+            .displayImage {
+                width: 100%;
 
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(2, auto);
+
+                gap: 64px;
+
+                .heroImage {
+                    justify-self: start;
+                    width: 100%;
+                    height: max-content;
+                    
+                    .hero {
+                        width: 100%;
+                        aspect-ratio: 1;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        img {
+                            max-width: 100%;
+                            max-height: 100%;
+                            
+                            /* 2. Pastikan dimensi yang tidak dibatasi dihitung otomatis */
+                            width: auto;
+                            height: auto;
+                        }
+                    }
+                    .bagianGearImage {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        padding: 12px;
+                        gap: 12px;
+
+                        .imageGear1, .imageGear2 {
+                            width: 100%;
+                            aspect-ratio: 1;
+                        }
+                    }
+                }
+                .heroImage:nth-child(even){
+                    justify-self: end;
+                }
+                
+            }
+        }
     </style>
 </head>
 <body>
@@ -18,13 +78,17 @@
     </ul>
 
     <div class="contentAsli">
-        <select name="hero" id="barking">
-            <option value="ini">rage</option>
-            <option value="ini">gempa</option>
-        </select>
-
         <!-- buat ini di js -->
+
     </div>
+    <div class="poster">
+        <div class="displayImage">
+
+            <!-- ini dibuat di js -->
+    
+        </div>
+    </div>
+
 
 <script>
     async function fetchApiGearHero() {
@@ -51,6 +115,7 @@
             console.error("Kesalahan Fetch API:", error);
         } finally {
             const wadah = document.querySelector(".contentAsli");
+            const displayImage = document.querySelector(".displayImage");
 
             
             const namaHero = Object.keys(data).map(ini => {
@@ -62,12 +127,22 @@
                 if(i >= 1){
                     const bagian = document.createElement("div");
                     bagian.className = "hero";
-
+                    const bagianImageHero = document.createElement("div");
+                    bagianImageHero.className = "heroImage";
+                    
                     const selectElement = document.createElement("select");
                     selectElement.className = "heroyang"
                     
+                    const bagianGear = document.createElement("div");
+                    bagianGear.className = "bagianGear"
+                    const bagianGearImage = document.createElement("div");
+                    bagianGearImage.className = "bagianGearImage"
+
+
                     const selectGear = document.createElement("select");
                     selectGear.className = "gear"
+                    const selectGear2 = document.createElement("select");
+                    selectGear2.className = "gear2"
                     
                     
                     namaHero.forEach(ini2 => {
@@ -76,23 +151,148 @@
                         optionElement.textContent = ini2;
                         selectElement.appendChild(optionElement);
                     });
-                    data[ini].forEach(ini2 => {
+
+                    data[namaHero[0]].forEach(ini2 => {
                         const namaGear = document.createElement('option');
                         namaGear.value = ini2;
                         namaGear.textContent = ini2;
                         selectGear.appendChild(namaGear);
                     })
+                    data[namaHero[0]].forEach(ini2 => {
+                        const namaGear = document.createElement('option');
+                        namaGear.value = ini2;
+                        namaGear.textContent = ini2;
+                        selectGear2.appendChild(namaGear);
+                    })
 
                     bagian.appendChild(selectElement);
-                    bagian.appendChild(selectGear);
+                    bagianGear.appendChild(selectGear);
+                    bagianGear.appendChild(selectGear2);
+
+                    bagian.appendChild(bagianGear);
+
+
                     wadah.appendChild(bagian);
+
+                    const imageHeroDiv = document.createElement('div');
+                    imageHeroDiv.className = "hero";
+                    const imageHero = document.createElement('img');
+                    imageHero.src = `asset/image/hero/barking.png`;
+                    imageHero.alt = "foto";
+                    imageHero.className = "pot";
+                    imageHeroDiv.appendChild(imageHero);
+                    
+                    const imageGear = document.createElement('img');
+                    imageGear.src = `asset/image/gear_hero/barking/${data[namaHero[0]][0]}`;
+                    imageGear.alt = "foto";
+                    imageGear.className = "imageGear1";
+                    const imageGear2 = document.createElement('img');
+                    imageGear2.src = `asset/image/gear_hero/barking/${data[namaHero[0]][0]}`;
+                    imageGear2.alt = "foto";
+                    imageGear2.className = "imageGear2";
+
+                    
+                    bagianGearImage.appendChild(imageGear);
+                    bagianGearImage.appendChild(imageGear2);
+                    
+
+                    bagianImageHero.appendChild(imageHeroDiv);
+                    bagianImageHero.appendChild(bagianGearImage)
+
+                    displayImage.appendChild(bagianImageHero);
+
                 }
             })
 
+            siapkanListenerTombol(data);
         }
     }
 
     fetchApiGearHero();
+
+
+</script>
+<script>
+    function siapkanListenerTombol(data){
+        const pilihanHero = document.querySelectorAll(".heroyang");
+        const pilihanGear = document.querySelectorAll(".gear");
+        const pilihanGear2 = document.querySelectorAll(".gear2");
+
+        const displayImageHero = document.querySelectorAll(".heroImage .hero img.pot");
+        const displayImageGear1 = document.querySelectorAll(".imageGear1")
+        const displayImageGear2 = document.querySelectorAll(".imageGear2")
+
+
+
+        pilihanHero.forEach((ini, i) => {
+            console.log(ini.value)
+            ini.addEventListener("change", function(){
+                displayImageHero[i].src = `asset/image/hero/${ini.value}.png`;
+
+
+                pilihanGear[i].innerHTML = "";
+                pilihanGear2[i].innerHTML = "";
+
+                data[ini.value].forEach(apa => {
+                    const optionElement = document.createElement("option");
+                    const optionElement2 = document.createElement("option");
+                    optionElement.value = apa;
+                    optionElement2.value = apa;
+                    optionElement.textContent = apa;
+                    optionElement2.textContent = apa;
+                    pilihanGear[i].appendChild(optionElement);
+                    pilihanGear2[i].appendChild(optionElement2);
+                })
+            })
+        });
+
+        pilihanGear.forEach((ini, i) => {
+            ini.addEventListener('change',  function(){
+                displayImageGear1[i].src = `asset/image/gear_hero/${pilihanHero[i].value}/${ini.value}`;
+            })
+        })
+        pilihanGear2.forEach((ini, i) => {
+            ini.addEventListener('change',  function(){
+                displayImageGear2[i].src = `asset/image/gear_hero/${pilihanHero[i].value}/${ini.value}`;
+            })
+        })
+
+    }
+
+// terpilihan.addEventListener('change', event => {
+//     // tombol delete
+//     if (event.target.matches('.ini .fotoan')) {
+//         const parent = event.target.parentElement;
+//         const id = parent.getAttribute("nomor")
+
+//         const imagePreview = document.getElementById(`tampilkan-${id}`);
+        
+//         const file = event.target.files[0];
+//         if (file && file.type.startsWith('image/')) {
+//             const reader = new FileReader();
+//             reader.onload = function(e) {
+//                 parent.querySelector(".petunjuk .tombol").textContent = "File terpilih";
+//                 parent.querySelector(".petunjuk .tombol").style.backgroundColor = "var(--biru)";
+//                 parent.querySelector(".petunjuk .tombol").style.color = "var(--terang)";
+//                 parent.querySelector(".petunjuk span").textContent = file.name;
+
+//                 imagePreview.querySelector("img").src = e.target.result
+//             };
+//             reader.readAsDataURL(file);
+//         } else {
+//             parent.querySelector(".petunjuk .tombol").textContent = "pilih file";
+//             parent.querySelector(".petunjuk .tombol").style.backgroundColor = "var(--garis-fs)";
+//             parent.querySelector(".petunjuk .tombol").style.color = "var(--gelap)";
+//             parent.querySelector(".petunjuk span").textContent = "Belum ada file dipilih";
+
+
+//             imagePreview.querySelector("img").src = '#';
+//         }
+//     }
+    
+// });
+
+
 </script>
 
 
