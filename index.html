@@ -57,6 +57,8 @@
                     justify-self: start;
                     width: 100%;
                     height: max-content;
+                    position: relative;
+                    background-color: transparent;
                     
                     .hero {
                         width: 100%;
@@ -74,10 +76,14 @@
                         }
                     }
                     .bagianGearImage {
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
                         display: grid;
                         grid-template-columns: repeat(2, 1fr);
                         padding: 4px;
                         gap: 4px;
+                        width: 100%;
 
                         .imageGear1, .imageGear2 {
                             width: 100%;
@@ -175,20 +181,22 @@
                         selectElement.appendChild(optionElement);
                     });
 
-                    data[namaHero[0]].forEach(ini2 => {
+                    data[namaHero[i]].forEach(ini2 => {
                         const namaGear = document.createElement('option');
                         namaGear.value = ini2;
                         namaGear.textContent = ini2;
                         selectGear.appendChild(namaGear);
                     })
-                    data[namaHero[0]].forEach(ini2 => {
+                    data[namaHero[i]].forEach(ini2 => {
                         const namaGear = document.createElement('option');
                         namaGear.value = ini2;
                         namaGear.textContent = ini2;
                         selectGear2.appendChild(namaGear);
                     })
 
+                    selectElement.value = ini;
                     bagian.appendChild(selectElement);
+                    
                     bagianGear.appendChild(selectGear);
                     bagianGear.appendChild(selectGear2);
 
@@ -200,17 +208,17 @@
                     const imageHeroDiv = document.createElement('div');
                     imageHeroDiv.className = "hero";
                     const imageHero = document.createElement('img');
-                    imageHero.src = `asset/image/hero/barking.png`;
+                    imageHero.src = `asset/image/hero/${namaHero[i]}.png`;
                     imageHero.alt = "foto";
                     imageHero.className = "pot";
                     imageHeroDiv.appendChild(imageHero);
                     
                     const imageGear = document.createElement('img');
-                    imageGear.src = `asset/image/gear_hero/barking/${data[namaHero[0]][0]}`;
+                    imageGear.src = `asset/image/gear_hero/${namaHero[i]}/${data[namaHero[i]][parseInt(i) + 1]}`;
                     imageGear.alt = "foto";
                     imageGear.className = "imageGear1";
                     const imageGear2 = document.createElement('img');
-                    imageGear2.src = `asset/image/gear_hero/barking/${data[namaHero[0]][0]}`;
+                    imageGear2.src = `asset/image/gear_hero/${namaHero[i]}/${data[namaHero[i]][i]}`;
                     imageGear2.alt = "foto";
                     imageGear2.className = "imageGear2";
 
@@ -228,6 +236,7 @@
             })
 
             siapkanListenerTombol(data);
+            divTarget = document.querySelectorAll('.heroImage');
         }
     }
 
@@ -249,7 +258,7 @@
 
         pilihanHero.forEach((ini, i) => {
             console.log(ini.value)
-            ini.addEventListener("change", function(){
+            ini.addEventListener("click", function(){
                 displayImageHero[i].src = `asset/image/hero/${ini.value}.png`;
 
 
@@ -270,55 +279,72 @@
         });
 
         pilihanGear.forEach((ini, i) => {
-            ini.addEventListener('change',  function(){
+            ini.addEventListener('click',  function(){
                 displayImageGear1[i].src = `asset/image/gear_hero/${pilihanHero[i].value}/${ini.value}`;
             })
         })
         pilihanGear2.forEach((ini, i) => {
-            ini.addEventListener('change',  function(){
+            ini.addEventListener('click',  function(){
                 displayImageGear2[i].src = `asset/image/gear_hero/${pilihanHero[i].value}/${ini.value}`;
             })
         })
 
     }
 
-// terpilihan.addEventListener('change', event => {
-//     // tombol delete
-//     if (event.target.matches('.ini .fotoan')) {
-//         const parent = event.target.parentElement;
-//         const id = parent.getAttribute("nomor")
-
-//         const imagePreview = document.getElementById(`tampilkan-${id}`);
-        
-//         const file = event.target.files[0];
-//         if (file && file.type.startsWith('image/')) {
-//             const reader = new FileReader();
-//             reader.onload = function(e) {
-//                 parent.querySelector(".petunjuk .tombol").textContent = "File terpilih";
-//                 parent.querySelector(".petunjuk .tombol").style.backgroundColor = "var(--biru)";
-//                 parent.querySelector(".petunjuk .tombol").style.color = "var(--terang)";
-//                 parent.querySelector(".petunjuk span").textContent = file.name;
-
-//                 imagePreview.querySelector("img").src = e.target.result
-//             };
-//             reader.readAsDataURL(file);
-//         } else {
-//             parent.querySelector(".petunjuk .tombol").textContent = "pilih file";
-//             parent.querySelector(".petunjuk .tombol").style.backgroundColor = "var(--garis-fs)";
-//             parent.querySelector(".petunjuk .tombol").style.color = "var(--gelap)";
-//             parent.querySelector(".petunjuk span").textContent = "Belum ada file dipilih";
-
-
-//             imagePreview.querySelector("img").src = '#';
-//         }
-//     }
-    
-// });
-
-
 </script>
 
 <script>
+    let divTarget = document.querySelectorAll('.heroImage');
+    const convertButton = document.getElementById('convertButton');
+    const outputDiv = document.getElementById('output');
+
+    convertButton.addEventListener('click', () => {
+        // Hapus hasil sebelumnya
+        outputDiv.innerHTML = ''; 
+        
+        divTarget.forEach((ini) => {
+            console.log("Memproses elemen...");
+            
+            try {
+                // MODIFIKASI: Tambahkan objek opsi kedua
+                html2canvas(ini, {
+                    // Mencegah html2canvas mengisi latar belakang dengan warna putih default.
+                    // Ini adalah kunci agar latar belakang transparan.
+                    backgroundColor: null, 
+                    
+                    // Opsional: Untuk resolusi tinggi
+                    // scale: 2 
+                }).then(canvas => {
+                    
+                    // Sisanya tetap sama: toDataURL() secara default menghasilkan PNG, yang mendukung transparansi.
+                    const imgDataUrl = canvas.toDataURL('image/png'); 
+                    
+                    const img = document.createElement('img');
+                    img.src = imgDataUrl;
+                    img.alt = "Hasil Konversi Transparan";
+                    
+                    outputDiv.appendChild(img);
+
+                    buatTautanDownload(imgDataUrl);
+                    
+                    console.log("Konversi berhasil dengan latar belakang transparan.");
+                });
+            } catch(err){
+                console.error("Kesalahan saat konversi:", err);
+            }
+        });
+    });
+    
+    function buatTautanDownload(imgDataUrl) {
+        const downloadLink = document.createElement('a');
+        downloadLink.href = imgDataUrl;
+        downloadLink.download = 'div_screenshot_transparent.png'; 
+        downloadLink.textContent = 'Unduh Gambar PNG Transparan';
+        downloadLink.style.display = 'block';
+        downloadLink.style.marginTop = '10px';
+        
+        outputDiv.appendChild(downloadLink);
+    }
 </script>
 
 </body>
