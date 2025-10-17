@@ -3,22 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>noe_lao thumbnail</title>
+    <title>kuku jempol malas ngedit rajin ngoding</title>
     <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
         .contentAsli {
             display: flex;
             flex-direction: column;
             gap: 32px;
+            width: 100%;
+            margin: 1rem;
+            .hero {
+                select {
+                    height: 24px;
+                    width: max-content;
+                }
+                .bagianGear {
+                    display: flex;
+                    flex-direction: column;
+                }
+            }
         }
         
         .poster {
-            height: 100vh;
+            width: 100%;
             aspect-ratio: 9/16;
+            
             background-color: #0a0a0a;
             display: flex;
             align-items: center;
-            /* justify-content: center; */
-            padding: 64px;
+
+            padding: 34px;
             .displayImage {
                 width: 100%;
 
@@ -26,7 +49,7 @@
                 grid-template-columns: repeat(2, 1fr);
                 grid-template-rows: repeat(2, auto);
 
-                gap: 64px;
+                gap: 0;
 
                 .heroImage {
                     justify-self: start;
@@ -51,8 +74,8 @@
                     .bagianGearImage {
                         display: grid;
                         grid-template-columns: repeat(2, 1fr);
-                        padding: 12px;
-                        gap: 12px;
+                        padding: 4px;
+                        gap: 4px;
 
                         .imageGear1, .imageGear2 {
                             width: 100%;
@@ -69,23 +92,17 @@
     </style>
 </head>
 <body>
-    <h1>kuku jempol malas ngedit rajin ngoding</h1>
-    <h2>tugas: </h2>
-    <img src="asset/image/gear_hero/barking/Earthquake_Boots.webp" alt="">
-    <ul>
-        <li>mencaari foto hero-hero di coc, berskin dan tidak berskin</li>
-        <li>mengumpulkan aset foto gear hero coc</li>
-    </ul>
-
-    <div class="contentAsli">
-        <!-- buat ini di js -->
-
-    </div>
-    <div class="poster">
-        <div class="displayImage">
-
-            <!-- ini dibuat di js -->
+    <div class="container">
+        <div class="contentAsli">
+            <!-- buat ini di js -->
     
+        </div>
+        <div class="poster">
+            <div class="displayImage">
+    
+                <!-- ini dibuat di js -->
+        
+            </div>
         </div>
     </div>
 
